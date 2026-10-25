@@ -2,37 +2,38 @@
 
 ## 📌 Project Description
 
-**Client-Server Chatbot** is a Java-based console chat application that demonstrates communication between a **Client** and a **Server** using **Socket Programming**.
+**Client-Server Chatbot** is a Java-based console chat application that demonstrates communication between a **client** and a **server** using socket programming.
 
-The client connects to the server through a specific port and allows the user to send messages. The server receives the client's messages and sends a response back to the client.
+The client connects to the server through a specific port and allows the user to send messages. The server receives messages from the client and sends responses back.
 
-The project also records the conversation into separate text files for both the client and server.
+The application also stores received messages in separate text files for the client and server.
 
-This project demonstrates important concepts of **Java Networking, Socket Programming, Input/Output Streams, File Handling, and Client-Server Architecture**.
+This project was developed as a personal learning project to understand Java networking, socket programming, input/output streams, file handling, and client-server architecture.
+
+> **Note:** This is a basic console-based chat application. Responses are entered manually by the server; automated AI chatbot responses are not implemented.
 
 ---
 
 ## 🎯 Features
 
-* Client-Server communication using Java Sockets
-* Real-time message exchange through the console
-* Server listens on port `3100`
-* Client connects to `localhost:3100`
-* Client can send messages to the server
-* Server can respond to client messages
-* Client-side conversation is stored in `Client_Chat.txt`
-* Server-side conversation is stored in `Server_Chat.txt`
-* Simple console-based interface
-* Demonstrates TCP communication
+- Client-server communication using Java sockets.
+- Console-based message exchange.
+- TCP communication through port `3100`.
+- Client connection using `localhost:3100`.
+- Sending messages from the client to the server.
+- Sending responses from the server to the client.
+- Saving received messages in separate text files.
+- Simple console interface for communication.
+- Client-side exit command using `end`.
 
 ---
 
 ## 🏗️ Project Structure
 
-The project contains two Java classes:
+The project contains two Java classes and two text files for message logging.
 
-```text id="8f7x3a"
-CLIENT_SERVER_CHATBOT
+```text
+CLIENT_SERVER_CHATBOT/
 │
 ├── Client_Chat.java
 ├── Server_Chat.java
@@ -48,27 +49,17 @@ CLIENT_SERVER_CHATBOT
 
 The client program is responsible for:
 
-* Creating a connection with the server
-* Sending messages to the server
-* Receiving responses from the server
-* Displaying server messages
-* Saving received messages into `Client_Chat.txt`
+- Establishing a connection with the server.
+- Sending messages to the server.
+- Receiving responses from the server.
+- Displaying received messages in the console.
+- Saving received messages in `Client_Chat.txt`.
 
-The client connects to:
+The client connects to the server using the hostname `localhost` and port `3100`.
 
-```java id="7ik8b5"
-localhost
-```
+Example socket creation:
 
-on port:
-
-```text id="m3ql0j"
-3100
-```
-
-The connection is established using:
-
-```java id="xj5jhm"
+```java
 Socket sobj = new Socket("localhost", 3100);
 ```
 
@@ -80,29 +71,25 @@ Socket sobj = new Socket("localhost", 3100);
 
 The server program is responsible for:
 
-* Starting the server
-* Creating a `ServerSocket`
-* Listening for client connections
-* Accepting a client request
-* Receiving messages from the client
-* Sending responses to the client
-* Saving received messages into `Server_Chat.txt`
+- Starting the server application.
+- Creating a `ServerSocket`.
+- Listening for incoming client connections.
+- Accepting a client connection.
+- Receiving messages from the client.
+- Sending responses to the client.
+- Saving received messages in `Server_Chat.txt`.
 
-The server listens on port:
+The server listens on port `3100`.
 
-```text id="0m3k4x"
-3100
-```
+Example server socket creation:
 
-The server creates the listening socket using:
-
-```java id="8t4p3v"
+```java
 ServerSocket ssobj = new ServerSocket(3100);
 ```
 
-It waits for a client using:
+The server accepts a client connection using:
 
-```java id="qgub9j"
+```java
 Socket sobj = ssobj.accept();
 ```
 
@@ -110,32 +97,42 @@ Socket sobj = ssobj.accept();
 
 ## 🔄 How the Application Works
 
-The communication follows this sequence:
+The application follows a basic client-server communication model:
 
-```text id="h2o8p3"
-             SERVER
-                |
-                |  Waiting on Port 3100
-                |
-                v
-          ServerSocket
-                |
-                |
-             CLIENT
-                |
-                | Connects to localhost:3100
-                v
-              Socket
-                |
-                |
-        +-------+-------+
-        |               |
-        v               v
-   Send Message    Receive Response
-        |               |
-        v               v
-      Server <------ Client
+```text
+          SERVER
+             |
+             v
+    ServerSocket (3100)
+             |
+      Waits for client
+             |
+             v
+     Accepts connection
+             |
+             v
+      TCP Connection
+             ^
+             |
+           CLIENT
+             |
+             v
+     Connects to server
+             |
+             v
+      Sends a message
+             |
+             v
+           SERVER
+             |
+             v
+      Sends a response
+             |
+             v
+           CLIENT
 ```
+
+The client and server exchange messages through a TCP socket connection. Each side saves the messages it receives in its respective text file.
 
 ---
 
@@ -145,73 +142,53 @@ The application uses **TCP socket communication**.
 
 ### Step 1: Start the Server
 
-The server creates a `ServerSocket` on port `3100`.
+The server creates a `ServerSocket` on port `3100` and waits for an incoming client connection.
 
-```text id="0o5ykh"
-Server
-  |
-  v
-ServerSocket(3100)
-  |
-  v
-Waiting for client...
+```java
+ServerSocket ssobj = new ServerSocket(3100);
 ```
 
 ### Step 2: Start the Client
 
-The client creates a socket and attempts to connect to the server.
+The client creates a socket to connect to the server.
 
-```text id="k4m1t0"
-Client
-  |
-  v
-Socket("localhost", 3100)
-  |
-  v
-Server
+```java
+Socket sobj = new Socket("localhost", 3100);
 ```
 
-### Step 3: Connection Established
+### Step 3: Establish the Connection
 
-The server accepts the client request.
+The server accepts the incoming connection, establishing a TCP connection between the client and server.
 
-```text id="6k0k0k"
-Client <========== TCP Connection ==========> Server
-```
-
-### Step 4: Message Exchange
+### Step 4: Exchange Messages
 
 The client enters a message:
 
-```text id="8k8wup"
+```text
 Enter message for server:
 Hello
 ```
 
-The client sends:
+The server receives the message:
 
-```text id="j6i4am"
-Hello
-```
-
-The server receives:
-
-```text id="o5o9be"
+```text
 client says:Hello
 ```
 
-The server then enters a response:
+The server can then enter a response:
 
-```text id="j3v3ks"
+```text
 Enter message for client:
 Hello Client
 ```
 
-The client receives:
+The client receives the response:
 
-```text id="l1l5ba"
+```text
 server says:Hello Client
 ```
+
+The exact console prompts may vary depending on the current Java source code.
 
 ---
 
@@ -221,7 +198,7 @@ server says:Hello Client
 
 Used by the client to establish a connection with the server.
 
-```java id="l9v3is"
+```java
 Socket sobj = new Socket("localhost", 3100);
 ```
 
@@ -229,42 +206,37 @@ Socket sobj = new Socket("localhost", 3100);
 
 Used by the server to listen for incoming client connections.
 
-```java id="8iv7eo"
+```java
 ServerSocket ssobj = new ServerSocket(3100);
 ```
 
 ### `PrintStream`
 
-Used to send messages through the socket output stream.
+Used to send data through an output stream.
 
-```java id="b8j6b8"
+```java
 PrintStream pobj = new PrintStream(sobj.getOutputStream());
 ```
 
 ### `BufferedReader`
 
-Used to read messages from:
-
-* Socket input stream
-* Keyboard input
+Used to read text from input streams, such as the socket input stream or keyboard input.
 
 ---
 
 ## 📁 Chat Logging
 
-The project maintains separate files for conversation logging.
+The application maintains separate text files for logging received messages.
 
 ### Client Log
 
-```text id="x0g2u4"
-Client_Chat.txt
-```
+**File:** `Client_Chat.txt`
 
-The client stores messages received from the server.
+This file stores messages received by the client from the server.
 
 Example:
 
-```text id="n6h6tu"
+```text
 server says:Hello Client
 server says:How are you?
 server says:I am fine.
@@ -272,102 +244,126 @@ server says:I am fine.
 
 ### Server Log
 
-```text id="8thqap"
-Server_Chat.txt
-```
+**File:** `Server_Chat.txt`
 
-The server stores messages received from the client.
+This file stores messages received by the server from the client.
 
 Example:
 
-```text id="tw0h5h"
+```text
 client says:Hello
 client says:How are you?
 client says:I need some information.
 ```
 
+The examples above illustrate the intended log format. Actual entries depend on the messages exchanged during execution.
+
 ---
 
 ## 🛑 Ending the Chat
 
-The client uses:
+The client uses the following keyword to terminate its chat loop:
 
-```text id="u9v6ps"
+```text
 end
 ```
 
-as the termination keyword.
+When the client enters `end`, the client exits and closes its connection.
 
-When the client enters `end`, the client stops sending messages and closes the socket and file.
+The exact server behavior after the client disconnects depends on the server implementation.
 
 ---
 
 ## 🧠 Concepts Demonstrated
 
-This project demonstrates:
+This project provides practical experience with:
 
-* Java Networking
-* Socket Programming
-* Client-Server Architecture
-* TCP Communication
-* `Socket`
-* `ServerSocket`
-* Input Streams
-* Output Streams
-* `BufferedReader`
-* `PrintStream`
-* File Handling
-* `FileWriter`
-* Exception Handling
-* Console Input
-* String Processing
+- Java networking.
+- Socket programming.
+- Client-server architecture.
+- TCP communication.
+- `Socket` and `ServerSocket`.
+- Input and output streams.
+- `BufferedReader` and `PrintStream`.
+- File handling.
+- Console input.
+- String processing.
+- Exception handling, where implemented in the source code.
 
 ---
 
 ## ▶️ How to Run
 
-### Step 1: Create the Package
+### Prerequisites
 
-The source files belong to:
+- Java Development Kit (JDK) installed.
+- Java compiler (`javac`) and Java runtime (`java`) available in the terminal.
+- Visual Studio Code or another Java development environment.
 
-```text id="gq2jfz"
-CLIENT_SERVER_CHATBOT
+Check your Java installation:
+
+```bash
+java -version
+javac -version
 ```
 
-Make sure both Java files are inside the appropriate package directory.
+### Step 1: Check the Package
 
-### Step 2: Compile
+The Java files are intended to use the following package:
 
-From the directory containing the package:
+```java
+package CLIENT_SERVER_CHATBOT;
+```
 
-```bash id="r5pk8w"
+Ensure both Java files declare this package and are stored in the matching directory structure.
+
+### Step 2: Compile the Java Files
+
+Run the following command from the directory containing the `CLIENT_SERVER_CHATBOT` folder:
+
+```bash
 javac CLIENT_SERVER_CHATBOT/*.java
 ```
 
-### Step 3: Start the Server First
+### Step 3: Start the Server
 
-Run:
+Open a terminal and run:
 
-```bash id="0q0kns"
+```bash
 java CLIENT_SERVER_CHATBOT.Server_Chat
 ```
 
-The server will display:
+Keep the server running.
 
-```text id="4j9x8p"
+Expected output from the provided example:
+
+```text
 server application is running...
 server is waiting is at port at 3100
 ```
 
 ### Step 4: Start the Client
 
-Open another terminal and run:
+Open a second terminal in the same working directory and run:
 
-```bash id="1n1v1f"
+```bash
 java CLIENT_SERVER_CHATBOT.Client_Chat
 ```
 
-The client will connect to the server.
+The client should connect to the server.
+
+Expected output from the provided example:
+
+```text
+client application is running...
+connection is successful with server
+..........................................
+................... chat client...........
+..........................................
+enter massage for server:
+```
+
+The sample output preserves the original console wording. If you later correct spelling in the Java source, update these examples to match.
 
 ---
 
@@ -375,7 +371,7 @@ The client will connect to the server.
 
 ### Server
 
-```text id="6qv2hv"
+```text
 server application is running...
 server is waiting is at port at 3100
 client request gets accepted successfully
@@ -388,7 +384,7 @@ enter massaage for client:
 
 ### Client
 
-```text id="2j7z0q"
+```text
 client application is running...
 connection is successful with server
 ..........................................
@@ -400,81 +396,84 @@ server says:Hello Client
 enter massage for server:
 ```
 
+These examples represent the expected interaction. The exact prompts and messages depend on the current program output.
+
 ---
 
 ## 🔐 Communication Model
 
-The project follows a simple **Client-Server Model**:
+The project follows a simple **client-server model**.
 
-```text id="2z7y9d"
-       CLIENT                         SERVER
-         |                              |
-         |------ Connection Request --->|
-         |                              |
-         |<----- Connection Accepted ---|
-         |                              |
-         |-------- Message ------------>|
-         |                              |
-         |<-------- Response -----------|
-         |                              |
-         |-------- Message ------------>|
-         |                              |
-         |<-------- Response -----------|
-         |                              |
-         |---------- Close ------------>|
+```text
+       CLIENT                       SERVER
+          |                            |
+          |------ Connection Request ->|
+          |                            |
+          |<----- Connection Accepted -|
+          |                            |
+          |-------- Message ---------->|
+          |                            |
+          |<-------- Response ---------|
+          |                            |
+          |-------- Message ---------->|
+          |                            |
+          |<-------- Response ---------|
+          |                            |
+          |------ Connection Close --->|
 ```
+
+The client initiates the connection, and the server accepts it. Messages and responses are exchanged through the established TCP connection.
 
 ---
 
 ## ⚠️ Current Limitations
 
-The current version is a simple console-based chatbot.
+The current version is a basic console-based chat application.
 
-Limitations include:
-
-* Supports one client connection at a time
-* No graphical user interface
-* No database
-* Messages are exchanged sequentially
-* Server responses are manually entered
-* No authentication
-* No encryption
-* Client and server must run on the same machine when using `localhost`
+- The tested setup runs the client and server on the same laptop.
+- The application does not include a graphical user interface.
+- No database integration is documented in the current implementation.
+- Server responses are entered manually.
+- Authentication and encryption are not documented as implemented.
+- Support for multiple simultaneous clients has not been verified.
 
 ---
 
 ## 🚀 Future Enhancements
 
-The project can be improved by adding:
+Possible improvements for future versions include:
 
-* Multiple client support
-* GUI-based chat application
-* Automated chatbot responses
-* Database storage
-* User authentication
-* Message timestamps
-* Online/offline status
-* Chat history
-* Encryption
-* Multi-threading
-* Network-based communication between different computers
-* AI-powered chatbot responses
+- Support for multiple clients.
+- A graphical user interface (GUI).
+- Automated chatbot responses.
+- Database integration for message storage.
+- User authentication.
+- Message timestamps.
+- Online/offline status.
+- Improved chat history management.
+- Secure communication through encryption.
+- Multithreading for handling concurrent clients.
+- Communication between computers on a network.
+- Integration with an AI-powered chatbot.
+
+These are proposed enhancements and are not claimed as existing features.
 
 ---
 
 ## 🎓 Project Objective
 
-The main objective of the **Client-Server Chatbot** project is to understand how two Java applications can communicate with each other over a network.
+The main objective of this project is to understand how two Java applications communicate using sockets and TCP.
 
-The project provides practical experience with **Socket Programming, TCP communication, Client-Server Architecture, Input/Output Streams, and File Handling**.
+It provides hands-on practice with networking fundamentals, client-server architecture, input/output streams, and file handling.
 
 ---
 
 ## 👨‍💻 Author
 
-**Shubham Suresh Isai**
+**Nageshwar Bharat Bagul**
 
-**Project:** Client-Server Chatbot
-**Technology:** Java
-**Type:** Console-Based Networking Application
-**Purpose:** Educational and Learning Project
+- **Project:** Client-Server Chatbot
+- **Technology:** Java
+- **Type:** Console-Based Networking Application
+- **Purpose:** Personal Learning Project
+
