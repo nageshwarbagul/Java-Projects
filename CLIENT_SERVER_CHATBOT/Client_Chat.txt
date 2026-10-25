@@ -1,0 +1,3 @@
+server says: Hi! How can I help you?
+server says: Sure, I can help you with that.
+server says: You're welcome. Have a nice day!
